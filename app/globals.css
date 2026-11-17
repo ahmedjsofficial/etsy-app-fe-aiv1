@@ -1,26 +1,108 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
+/*
+ * Color values live in `lib/theme.ts` and are injected as CSS variables by
+ * `components/theme/ThemeHead.tsx`. Only the Tailwind mapping lives here.
+ */
 @theme inline {
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-hand: var(--font-caveat), "Segoe Print", cursive;
+  --font-display: var(--font-anton), Impact, "Arial Narrow", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface-alt: var(--surface-alt);
+  --color-highlight: var(--highlight);
+  --color-highlight-foreground: var(--highlight-foreground);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-hero-from: var(--hero-from);
+  --color-hero-via: var(--hero-via);
+  --color-hero-to: var(--hero-to);
+  --color-hero-glow: var(--hero-glow);
+  --color-hero-foreground: var(--hero-foreground);
+  --color-hero-muted: var(--hero-muted);
+  --color-hero-border: var(--hero-border);
+  --color-hero-sun: var(--hero-sun);
+  --color-hero-sun-highlight: var(--hero-sun-highlight);
+  --color-hero-stage: var(--hero-stage);
+  --color-hero-stage-edge: var(--hero-stage-edge);
+  --color-hero-stone: var(--hero-stone);
+  --color-hero-note: var(--hero-note);
+  --color-hero-note-ink: var(--hero-note-ink);
+
+  --radius: 0.75rem;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-float: float var(--float-duration, 7s) ease-in-out var(--float-delay, 0s) infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      translate: 0 0;
+      rotate: 0deg;
+    }
+    50% {
+      translate: 0 var(--float-distance, -10px);
+      rotate: var(--float-rotate, 0deg);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility bg-hero {
+  background:
+    radial-gradient(60% 70% at 92% 8%, color-mix(in oklab, var(--hero-glow) 70%, transparent) 0%, transparent 70%),
+    radial-gradient(45% 60% at 8% 100%, color-mix(in oklab, var(--hero-from) 85%, transparent) 0%, transparent 70%),
+    linear-gradient(100deg, var(--hero-from) 0%, var(--hero-from) 22%, var(--hero-via) 52%, var(--hero-to) 100%);
+}
+
+@utility text-balance-safe {
+  text-wrap: balance;
+}
+
+/* Page gutters — prefer this over Tailwind `container` / per-section max-width. */
+@utility app-container {
+  @apply mx-auto w-[95%] lg:w-11/12;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
